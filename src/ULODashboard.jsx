@@ -267,3 +267,36 @@ const styles = {
   trEven:       { background: "#fff" },
   trOdd:        { background: "#fafbff" },
 };
+
+
+function LogoutModal({ isOpen, onConfirm, onCancel }) {
+  if (!isOpen) return null;
+
+  return (
+    <div style={styles.overlay} onClick={onCancel}>
+      <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
+        
+        {/* Header */}
+        <div style={styles.modalHeader}>
+          <span style={styles.modalTitle}>Confirm Logout</span>
+        </div>
+
+        {/* Body */}
+        <div style={styles.modalBody}>
+          <p style={styles.modalText}>
+            Are you sure you want to logout?
+          </p>
+
+          <div style={styles.modalActions}>
+            <button style={styles.cancelBtn} onClick={onCancel}>
+              Cancel
+            </button>
+            <button style={styles.confirmBtn} onClick={onConfirm}>
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

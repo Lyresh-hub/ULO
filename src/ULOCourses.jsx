@@ -47,7 +47,7 @@ const navIcons = [
     ),
   },
   {
-    id: "profile",
+    id: "account",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -540,3 +540,35 @@ const styles = {
     fontWeight: "700",
   },
 }; 
+
+function LogoutModal({ isOpen, onConfirm, onCancel }) {
+  if (!isOpen) return null;
+
+  return (
+    <div style={styles.overlay} onClick={onCancel}>
+      <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
+        
+        {/* Header */}
+        <div style={styles.modalHeader}>
+          <span style={styles.modalTitle}>Confirm Logout</span>
+        </div>
+
+        {/* Body */}
+        <div style={styles.modalBody}>
+          <p style={styles.modalText}>
+            Are you sure you want to logout?
+          </p>
+
+          <div style={styles.modalActions}>
+            <button style={styles.cancelBtn} onClick={onCancel}>
+              Cancel
+            </button>
+            <button style={styles.confirmBtn} onClick={onConfirm}>
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
