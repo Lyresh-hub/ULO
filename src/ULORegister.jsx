@@ -2,6 +2,8 @@ import { useState } from "react";
 import circleImg  from "./assets/images/circle1.png";
 import circleImg2 from "./assets/images/circle2.png";
 import circleImg3 from "./assets/images/circle3.png";
+import buildingImg from "./assets/images/building.png";
+import logo from "./assets/images/logo.png";
 
 export default function ULORegister({ onBack }) {
   const [form, setForm] = useState({
@@ -35,7 +37,11 @@ export default function ULORegister({ onBack }) {
 
       {/* LEFT SIDE */}
       <div className="reg-left">
-        <h1 className="reg-school">Unibersidad ng Lungsod ng Olongapo</h1>
+        <div className="reg-buildingWrapper">
+          <img src={logo} className="reg-logo" />
+          <h1 className="reg-school">Unibersidad ng Lungsod ng Olongapo</h1>
+          <img src={buildingImg} className="reg-building" />
+        </div>
       </div>
 
       {/* RIGHT SIDE */}
@@ -88,16 +94,34 @@ export default function ULORegister({ onBack }) {
           flex: 1;
           position: relative;
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           z-index: 1;
         }
 
+        .reg-buildingWrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+          max-width: 480px;
+          gap: 12px;
+        }
+
+        .reg-logo { width: 90px; }
+
         .reg-school {
-          font-size: 36px;
+          font-size: 22px;
           font-weight: bold;
           color: #1e2d7d;
-          max-width: 420px;
+          max-width: 380px;
           line-height: 1.3;
+          text-align: center;
+        }
+
+        .reg-building {
+          width: 100%;
+          position: relative;
+          z-index: 1;
         }
 
         .reg-right {
@@ -159,14 +183,15 @@ export default function ULORegister({ onBack }) {
         }
 
         @media (max-width: 900px) {
-          .reg-page { flex-direction: column; padding: 30px; }
-          .reg-left { justify-content: center; }
-          .reg-school { font-size: 22px; text-align: center; }
+          .reg-page { flex-direction: column; padding: 30px; gap: 30px; }
+          .reg-left { justify-content: center; width: 100%; }
+          .reg-buildingWrapper { max-width: 100%; }
           .reg-right { width: 100%; }
         }
         @media (max-width: 500px) {
           .reg-card { padding: 20px; }
           .reg-school { font-size: 18px; }
+          .reg-logo { width: 60px; }
         }
       `}</style>
     </div>

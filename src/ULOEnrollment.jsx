@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+// #data — student profile info displayed in the Profile tab
 const profileData = {
   studentNumber: "2023-00123",
   name: "Juan Dela Cruz",
@@ -9,8 +10,10 @@ const profileData = {
   college: "College of Information and Communications Technology",
 };
 
+// #data — tab labels
 const tabs = ["Profile", "Category 1", "Category 2", "Category 3"];
 
+// #data — fields rendered in the student info grid
 const profileFields = [
   { label: "Student Number", value: profileData.studentNumber },
   { label: "Full Name", value: profileData.name },
@@ -20,6 +23,7 @@ const profileFields = [
   { label: "College", value: profileData.college },
 ];
 
+// #nav icons — icon definitions for each sidebar button
 const navIcons = [
   {
     id: "dashboard",
@@ -64,24 +68,15 @@ const navIcons = [
 ];
 
 export default function ULOEnrollment({ onNavigate }) {
+  // #state — tracks active sidebar icon, active tab, and logout modal visibility
   const [activeNav, setActiveNav] = useState("enrollment");
   const [activeTab, setActiveTab] = useState("Profile");
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   return (
     <div style={styles.app}>
       {/* Sidebar */}
       <aside style={styles.sidebar}>
-        <div style={styles.sidebarTop}>
-          <div style={styles.logoBox}>
-            <svg width="28" height="28" viewBox="0 0 90 90" fill="none">
-              <circle cx="45" cy="45" r="42" fill="#f5c842" />
-              <path d="M45 3 A42 42 0 0 1 87 45" stroke="#1e2d7d" strokeWidth="14" fill="none" strokeLinecap="round" />
-              <path d="M87 45 A42 42 0 0 1 45 87" stroke="#1e2d7d" strokeWidth="14" fill="none" strokeLinecap="round" />
-              <circle cx="45" cy="45" r="20" fill="#f5c842" />
-            </svg>
-          </div>
-        </div>
-
         <nav style={styles.nav}>
           {navIcons.map((item) => (
             <button
@@ -114,12 +109,7 @@ export default function ULOEnrollment({ onNavigate }) {
           <button
             style={styles.logoutBtn}
             title="Logout"
-            onClick={() => {
-                const confirmLogout = window.confirm("Are you sure you want to logout?");
-                if (confirmLogout) {
-                    onNavigate("login");
-                }
-                }}
+            onClick={() => setShowLogoutModal(true)}
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
@@ -215,9 +205,16 @@ export default function ULOEnrollment({ onNavigate }) {
         </div>
       </main>
 
+      <LogoutModal
+        isOpen={showLogoutModal}
+        onConfirm={() => onNavigate("login")}
+        onCancel={() => setShowLogoutModal(false)}
+      />
+
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #f7f8fc; }
         button { cursor: pointer; border: none; background: none; }
         button:hover { opacity: 0.85; }
       `}</style>
@@ -225,12 +222,11 @@ export default function ULOEnrollment({ onNavigate }) {
   );
 }
 
+// #styles — all inline style objects used by the components above
 const styles = {
-  app:           { display: "flex", minHeight: "100vh", fontFamily: "'Nunito', sans-serif", background: "#f7f8fc" },
+  app:           { display: "flex", width: "100%", minHeight: "100vh", fontFamily: "'Nunito', sans-serif", background: "#f7f8fc" },
   sidebar:       { width: "64px", background: "#1a2056", display: "flex", flexDirection: "column", alignItems: "center", paddingTop: "16px", paddingBottom: "16px", position: "fixed", top: 0, left: 0, height: "100vh", zIndex: 100 },
-  sidebarTop:    { marginBottom: "24px" },
-  logoBox:       { width: "40px", height: "40px", display: "flex", alignItems: "center", justifyContent: "center" },
-  nav:           { display: "flex", flexDirection: "column", gap: "6px", flex: 1 },
+  nav:           { display: "flex", flexDirection: "column", gap: "6px", flex: 1, justifyContent: "center" },
   navBtn:        { width: "44px", height: "44px", borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center", color: "#8892c8", transition: "all 0.18s" },
   navBtnActive:  { background: "#f5c842", color: "#1a2056" },
   sidebarBottom: { marginTop: "auto" },
@@ -265,34 +261,43 @@ const styles = {
   emptyText:     { color: "#a0aec0", fontSize: "14px", fontWeight: "600" },
 };
 
+// #logout modal — confirmation dialog shown before logging out
 function LogoutModal({ isOpen, onConfirm, onCancel }) {
   if (!isOpen) return null;
-
   return (
-    <div style={styles.overlay} onClick={onCancel}>
-      <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
-        
-        {/* Header */}
-        <div style={styles.modalHeader}>
-          <span style={styles.modalTitle}>Confirm Logout</span>
+    <div
+      style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", background: "rgba(0,0,0,0.45)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center" }}
+      onClick={onCancel}
+    >
+      <div
+        style={{ background: "#fff", borderRadius: "14px", border: "2px solid #f5c842", width: "320px", overflow: "hidden", animation: "modalPopIn 0.18s ease", fontFamily: "'Nunito', sans-serif" }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div style={{ background: "#f5c842", padding: "14px 20px", display: "flex", alignItems: "center", gap: "10px" }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a2056" strokeWidth="2.5">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+          <span style={{ fontSize: "15px", fontWeight: "800", color: "#1a2056" }}>Confirm Logout</span>
         </div>
-
-        {/* Body */}
-        <div style={styles.modalBody}>
-          <p style={styles.modalText}>
-            Are you sure you want to logout?
+        <div style={{ padding: "22px", display: "flex", flexDirection: "column", gap: "20px" }}>
+          <p style={{ fontSize: "13px", color: "#4a5568", fontWeight: "600", textAlign: "center" }}>
+            Are you sure you want to log out?
           </p>
-
-          <div style={styles.modalActions}>
-            <button style={styles.cancelBtn} onClick={onCancel}>
-              Cancel
-            </button>
-            <button style={styles.confirmBtn} onClick={onConfirm}>
-              Logout
-            </button>
+          <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+            <button
+              style={{ padding: "8px 28px", borderRadius: "8px", fontSize: "13px", fontWeight: "700", border: "1.5px solid #e2e8f0", background: "#f7f8fc", color: "#4a5568", cursor: "pointer" }}
+              onClick={onCancel}
+            >Cancel</button>
+            <button
+              style={{ padding: "8px 28px", borderRadius: "8px", fontSize: "13px", fontWeight: "700", border: "none", background: "#e53e3e", color: "#fff", cursor: "pointer" }}
+              onClick={onConfirm}
+            >Log out</button>
           </div>
         </div>
       </div>
+      <style>{`@keyframes modalPopIn { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }`}</style>
     </div>
   );
 }

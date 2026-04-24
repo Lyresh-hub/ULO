@@ -17,9 +17,11 @@ export default function ULOStudentPortal({ onLogin, onRegister }) {
 
       {/* LEFT SIDE */}
       <div className="leftPanel">
-        <img src={logo} className="logo" />
-        <h1 className="schoolName">Unibersidad ng Lungsod ng Olongapo</h1>
-        <img src={buildingImg} className="buildingImg" />
+        <div className="buildingWrapper">
+          <img src={logo} className="logo" />
+          <h1 className="schoolName">Unibersidad ng Lungsod ng Olongapo</h1>
+          <img src={buildingImg} className="buildingImg" />
+        </div>
       </div>
 
       {/* RIGHT SIDE */}
@@ -99,9 +101,17 @@ export default function ULOStudentPortal({ onLogin, onRegister }) {
           flex-direction: column;
           justify-content: center;
           align-items: flex-start;
-          gap: 16px;
           position: relative;
           z-index: 1;
+        }
+
+        .buildingWrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+          max-width: 480px;
+          gap: 12px;
         }
 
         .logo { width: 90px; }
@@ -112,11 +122,11 @@ export default function ULOStudentPortal({ onLogin, onRegister }) {
           color: #1e2d7d;
           max-width: 380px;
           line-height: 1.3;
+          text-align: center;
         }
 
         .buildingImg {
           width: 100%;
-          max-width: 480px;
           position: relative;
           z-index: 1;
         }
